@@ -1,5 +1,5 @@
 import { Bike, Camera, Headphones, Home, Laptop, Shirt, Smartphone } from "lucide-react";
-import type { Category, Product, ProductQuery, Seller } from "@/types";
+import type { Category, MockAccount, Product, ProductQuery, Seller } from "@/types";
 
 const img = (id: string): string =>
     `https://images.unsplash.com/${id}?auto=format&fit=crop&w=800&q=80`;
@@ -215,3 +215,27 @@ export function getProducts({ category, sort = "newest" }: ProductQuery = {}): P
         return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     });
 }
+
+export const demoCredentials = {
+    email: "demo@freemarket.vn",
+    password: "123456",
+} as const;
+
+export const mockAccounts: MockAccount[] = [
+    {
+        id: "u1",
+        name: "Nguyễn Minh Anh",
+        email: demoCredentials.email,
+        password: demoCredentials.password,
+        avatar:
+            "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=800&q=80",
+    },
+    {
+        id: "u2",
+        name: "Trần Quốc Bảo",
+        email: "bao@freemarket.vn",
+        password: "freemarket",
+        avatar:
+            "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80",
+    },
+];
