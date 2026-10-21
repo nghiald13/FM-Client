@@ -2,7 +2,7 @@ import { z } from "zod";
 import type { LoginFormValues, RegisterFormValues } from "@/types";
 
 export const loginSchema = z.object({
-    email: z.string().min(1, "Vui lòng nhập email").email("Email không hợp lệ"),
+    emailOrPhone: z.string().min(1, "Vui lòng nhập email hoặc số điện thoại"),
     password: z
         .string()
         .min(1, "Vui lòng nhập mật khẩu")

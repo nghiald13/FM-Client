@@ -74,7 +74,7 @@ export interface MockAccount extends AuthUser {
 }
 
 export interface LoginFormValues {
-    email: string;
+    emailOrPhone: string;
     password: string;
     rememberMe: boolean;
 }
