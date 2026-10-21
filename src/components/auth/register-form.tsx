@@ -18,7 +18,6 @@ import { registerAccount } from "@/lib/mock-auth";
 import { cn } from "@/lib/utils";
 import { registerSchema, registerStepFields } from "@/lib/validations/auth";
 import { useAccountsStore } from "@/stores/use-accounts-store";
-import { useAuthStore } from "@/stores/use-auth-store";
 import type { RegisterFormValues } from "@/types";
 
 const LAST_STEP = registerSteps.length - 1;
@@ -28,7 +27,6 @@ const selectClassName =
 
 export function RegisterForm() {
     const router = useRouter();
-    const login = useAuthStore((state) => state.login);
     const registeredAccounts = useAccountsStore((state) => state.accounts);
     const addAccount = useAccountsStore((state) => state.addAccount);
 
@@ -97,12 +95,9 @@ export function RegisterForm() {
             return;
         }
 
-        const { password: _password, ...user } = result.account;
         addAccount(result.account);
-        login(user, "");
-        toast.success(`Đăng ký thành công! Chào mừng ${user.name}`);
-        router.replace(values.intent === "buy" ? "/" : "/studio");
-        router.refresh();
+        toast.success("Đăng ký thành công! Vui lòng đăng nhập.");
+        router.replace("/login");
     }
 
     const currentIntentLabel =

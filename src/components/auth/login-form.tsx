@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn } from "next-auth/react";
 import { Controller, useForm } from "react-hook-form";
 import { AlertCircle, Eye, EyeOff, Loader2, LogIn } from "lucide-react";
 import { toast } from "sonner";
@@ -11,13 +12,11 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { demoCredentials } from "@/lib/mock-data";
-import { authenticate } from "@/lib/mock-auth";
+import { getLoginErrorMessage } from "@/lib/auth-errors";
 import { cn } from "@/lib/utils";
 import { loginSchema } from "@/lib/validations/auth";
-import { useAuthStore } from "@/stores/use-auth-store";
+import { useLoginPreferencesStore } from "@/stores/use-login-preferences-store";
 import type { LoginFormValues } from "@/types";
-import { useAccountsStore } from "@/stores/use-accounts-store";
 
 interface LoginFormProps {
     redirectTo: string;
@@ -25,8 +24,7 @@ interface LoginFormProps {
 
 export function LoginForm({ redirectTo }: LoginFormProps) {
     const router = useRouter();
-    const login = useAuthStore((state) => state.login);
-    const registeredAccounts = useAccountsStore((state) => state.accounts);
+    const setRememberedEmail = useLoginPreferencesStore((state) => state.setRememberedEmail);
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
     const {
@@ -34,41 +32,49 @@ export function LoginForm({ redirectTo }: LoginFormProps) {
         control,
         handleSubmit,
         setValue,
-        clearErrors,
         setError,
         formState: { errors, isSubmitting },
     } = useForm<LoginFormValues>({
         resolver: zodResolver(loginSchema),
-        defaultValues: { email: "", password: "", rememberMe: false },
+        defaultValues: { emailOrPhone: "", password: "", rememberMe: false },
     });
 
     useEffect(() => {
-        const rememberedEmail = useAuthStore.getState().rememberedEmail;
+        const rememberedEmail = useLoginPreferencesStore.getState().rememberedEmail;
         if (rememberedEmail) {
-            setValue("email", rememberedEmail);
+            setValue("emailOrPhone", rememberedEmail);
             setValue("rememberMe", true);
         }
     }, [setValue]);
 
+    function showError(message: string): void {
+        setError("root", { message });
+        toast.error(message);
+    }
+
     async function onSubmit(values: LoginFormValues): Promise<void> {
-        const result = await authenticate(values.email, values.password, registeredAccounts);
-        if (!result.ok) {
-            setError("root", { message: result.message });
-            toast.error(result.message);
+        const emailOrPhone = values.emailOrPhone.trim();
+
+        try {
+            const result = await signIn("credentials", {
+                emailOrPhone,
+                password: values.password,
+                redirect: false,
+            });
+
+            if (!result || result.error) {
+                showError(getLoginErrorMessage(result?.code));
+                return;
+            }
+        } catch {
+            showError(getLoginErrorMessage("network_error"));
             return;
         }
 
-        login(result.user, values.rememberMe ? values.email.trim() : "");
-        toast.success(`Chào mừng ${result.user.name}!`);
+        setRememberedEmail(values.rememberMe ? emailOrPhone : "");
+        toast.success("Đăng nhập thành công!");
         router.replace(redirectTo);
         router.refresh();
-    }
-
-    function fillDemoAccount(): void {
-        clearErrors();
-        setValue("email", demoCredentials.email, { shouldValidate: true });
-        setValue("password", demoCredentials.password, { shouldValidate: true });
-        toast.info("Đã điền tài khoản demo");
     }
 
     return (
@@ -97,14 +103,14 @@ export function LoginForm({ redirectTo }: LoginFormProps) {
                         autoComplete="email"
                         inputMode="email"
                         placeholder="ten@email.com"
-                        aria-invalid={Boolean(errors.email)}
-                        aria-describedby={errors.email ? "email-error" : undefined}
-                        className={cn("h-11", errors.email && "border-rose-400")}
-                        {...register("email")}
+                        aria-invalid={Boolean(errors.emailOrPhone)}
+                        aria-describedby={errors.emailOrPhone ? "email-error" : undefined}
+                        className={cn("h-11", errors.emailOrPhone && "border-rose-400")}
+                        {...register("emailOrPhone")}
                     />
-                    {errors.email && (
+                    {errors.emailOrPhone && (
                         <p id="email-error" className="text-xs text-rose-600">
-                            {errors.email.message}
+                            {errors.emailOrPhone.message}
                         </p>
                     )}
                 </div>
@@ -186,24 +192,6 @@ export function LoginForm({ redirectTo }: LoginFormProps) {
                     )}
                 </Button>
             </form>
-
-            <div className="mt-4 rounded-lg border border-dashed border-slate-300 bg-slate-50 p-3">
-                <p className="text-xs text-slate-500">
-                    Đây là bản demo, không có máy chủ thật. Dùng tài khoản mẫu để thử nhanh:
-                </p>
-                <p className="mt-1 font-mono text-xs text-slate-700">
-                    {demoCredentials.email} / {demoCredentials.password}
-                </p>
-                <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={fillDemoAccount}
-                    className="mt-2 w-full border-slate-300 bg-white"
-                >
-                    Điền tài khoản demo
-                </Button>
-            </div>
 
             <p className="mt-5 text-center text-sm text-slate-500">
                 Chưa có tài khoản?{" "}
