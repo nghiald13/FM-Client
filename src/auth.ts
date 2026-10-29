@@ -1,8 +1,10 @@
-import NextAuth, { CredentialsSignin } from "next-auth";
+import NextAuth, { CredentialsSignin, type User } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { z } from "zod";
 import type { LoginErrorCode } from "@/lib/auth-errors";
+import { postBackend, type BackendFailure } from "@/lib/backend";
 import { loginSchema } from "@/lib/validations/auth";
+import { otpSchema } from "@/lib/validations/verify";
 
 class LoginError extends CredentialsSignin {
     constructor(code: LoginErrorCode) {
@@ -13,20 +15,29 @@ class LoginError extends CredentialsSignin {
 
 const credentialsSchema = loginSchema.pick({ emailOrPhone: true, password: true });
 
-const backendLoginResponseSchema = z.object({
-    success: z.boolean().optional(),
-    message: z.string().optional(),
-    data: z.object({
-        accessToken: z.string().min(1),
-        refreshToken: z.string().min(1),
-        expiresIn: z.number().positive().optional(),
-    }),
+const verifyCredentialsSchema = z.object({
+    key: z.string().min(1),
+    otp: otpSchema,
+});
+
+const tokenDataSchema = z.object({
+    accessToken: z.string().min(1),
+    refreshToken: z.string().min(1),
+    tokenType: z.string().optional(),
+    expiresIn: z.number().positive().optional(),
 });
 
 const jwtPayloadSchema = z.object({
     exp: z.number().optional(),
     sub: z.string().optional(),
 });
+
+const backendErrorCodes = new Map<string, LoginErrorCode>([
+    ["AccountInactiveException", "account_inactive"],
+    ["InvalidTokenException", "invalid_token"],
+    ["IncorrectOtpException", "incorrect_otp"],
+    ["AccountMfaException", "mfa_locked"],
+]);
 
 function decodeJwtPayload(token: string): z.infer<typeof jwtPayloadSchema> {
     const payload = token.split(".")[1];
@@ -40,13 +51,43 @@ function decodeJwtPayload(token: string): z.infer<typeof jwtPayloadSchema> {
     }
 }
 
-function getLoginEndpoint(): string {
-    const loginEndpoint = process.env.BE_LOGIN_API;
-    if (!loginEndpoint) {
-        console.error("[auth] Thiếu biến môi trường BE_LOGIN_API");
-        throw new LoginError("server_error");
+function toLoginErrorCode(failure: BackendFailure, fallback: LoginErrorCode): LoginErrorCode {
+    switch (failure.kind) {
+        case "network":
+            return "network_error";
+        case "rate_limit":
+            return "too_many_requests";
+        case "server":
+        case "config":
+            return "server_error";
+        case "invalid_response":
+            return "invalid_response";
+        case "backend":
+            return (failure.errorName && backendErrorCodes.get(failure.errorName)) || fallback;
     }
-    return loginEndpoint;
+}
+
+function toAuthUser(data: unknown, fallbackId: string, email?: string): User {
+    const parsed = tokenDataSchema.safeParse(data);
+    if (!parsed.success) throw new LoginError("invalid_response");
+
+    const { accessToken, refreshToken, tokenType, expiresIn } = parsed.data;
+    const claims = decodeJwtPayload(accessToken);
+
+    const accessTokenExpires = expiresIn
+        ? Date.now() + expiresIn * 1000
+        : claims.exp
+            ? claims.exp * 1000
+            : undefined;
+
+    return {
+        id: claims.sub ?? fallbackId,
+        email,
+        accessToken,
+        refreshToken,
+        tokenType,
+        accessTokenExpires,
+    };
 }
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -63,51 +104,27 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 const parsed = credentialsSchema.safeParse(rawCredentials);
                 if (!parsed.success) throw new LoginError("invalid_credentials");
 
-                const endpoint = getLoginEndpoint();
+                const result = await postBackend("BE_LOGIN_API", parsed.data);
+                if (!result.ok) throw new LoginError(toLoginErrorCode(result, "invalid_credentials"));
 
-                let response: Response;
-                try {
-                    response = await fetch(endpoint, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(parsed.data),
-                        cache: "no-store",
-                        // signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
-                    });
-                } catch {
-                    throw new LoginError("network_error");
-                }
+                return toAuthUser(result.data, parsed.data.emailOrPhone, parsed.data.emailOrPhone);
+            },
+        }),
+        // Đăng nhập sau khi verify OTP: server tự gọi BE nên token không đi qua client.
+        Credentials({
+            id: "verify-otp",
+            credentials: {
+                key: { label: "Key", type: "text" },
+                otp: { label: "OTP", type: "text" },
+            },
+            async authorize(rawCredentials) {
+                const parsed = verifyCredentialsSchema.safeParse(rawCredentials);
+                if (!parsed.success) throw new LoginError("incorrect_otp");
 
-                if (response.status === 429) throw new LoginError("too_many_requests");
-                if (response.status >= 500) throw new LoginError("server_error");
-                if (!response.ok) throw new LoginError("invalid_credentials");
+                const result = await postBackend("BE_VERIFY_PROCEED", parsed.data);
+                if (!result.ok) throw new LoginError(toLoginErrorCode(result, "server_error"));
 
-                let body: unknown;
-                try {
-                    body = await response.json();
-                } catch {
-                    throw new LoginError("invalid_response");
-                }
-
-                const parsedBody = backendLoginResponseSchema.safeParse(body);
-                if (!parsedBody.success) throw new LoginError("invalid_response");
-
-                const { accessToken, refreshToken, expiresIn } = parsedBody.data.data;
-                const claims = decodeJwtPayload(accessToken);
-
-                const accessTokenExpires = expiresIn
-                    ? Date.now() + expiresIn * 1000
-                    : claims.exp
-                        ? claims.exp * 1000
-                        : undefined;
-
-                return {
-                    id: claims.sub ?? parsed.data.emailOrPhone,
-                    email: parsed.data.emailOrPhone,
-                    accessToken,
-                    refreshToken,
-                    accessTokenExpires,
-                };
+                return toAuthUser(result.data, parsed.data.key);
             },
         }),
     ],
@@ -116,6 +133,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             if (user) {
                 token.accessToken = user.accessToken;
                 token.refreshToken = user.refreshToken;
+                token.tokenType = user.tokenType;
                 token.accessTokenExpires = user.accessTokenExpires;
             }
             return token;

@@ -5,6 +5,7 @@ declare module "next-auth" {
     interface User {
         accessToken?: string;
         refreshToken?: string;
+        tokenType?: string;
         accessTokenExpires?: number;
     }
 
@@ -17,6 +18,7 @@ declare module "next-auth/jwt" {
     interface JWT {
         accessToken?: string;
         refreshToken?: string;
+        tokenType?: string;
         accessTokenExpires?: number;
     }
 }

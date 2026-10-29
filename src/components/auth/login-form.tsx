@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
 import { loginSchema } from "@/lib/validations/auth";
 import { useLoginPreferencesStore } from "@/stores/use-login-preferences-store";
 import type { LoginFormValues } from "@/types";
+import { requestVerifyProcessAction } from "@/actions/verify-actions";
 
 interface LoginFormProps {
     redirectTo: string;
@@ -52,22 +53,31 @@ export function LoginForm({ redirectTo }: LoginFormProps) {
         toast.error(message);
     }
 
+    async function redirectToVerify(email: string): Promise<void> {
+        toast.info("Tài khoản chưa được xác minh. Đang chuyển đến trang xác minh...");
+        const result = await requestVerifyProcessAction(email);
+        if (!result.ok) {
+            showError(result.message);
+            return;
+        }
+        router.push(`/verify?key=${encodeURIComponent(result.data.key)}`);
+    }
+
     async function onSubmit(values: LoginFormValues): Promise<void> {
         const emailOrPhone = values.emailOrPhone.trim();
 
-        try {
-            const result = await signIn("credentials", {
-                emailOrPhone,
-                password: values.password,
-                redirect: false,
-            });
+        const result = await signIn("credentials", {
+            emailOrPhone,
+            password: values.password,
+            redirect: false,
+        });
 
-            if (!result || result.error) {
-                showError(getLoginErrorMessage(result?.code));
+        if (!result || result.error) {
+            if (result?.code === "account_inactive") {
+                await redirectToVerify(emailOrPhone);
                 return;
             }
-        } catch {
-            showError(getLoginErrorMessage("network_error"));
+            showError(getLoginErrorMessage(result?.code));
             return;
         }
 

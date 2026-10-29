@@ -121,3 +121,17 @@ export interface PasswordStrength {
 export type ItemCondition = "New" | "Like New" | "Well Used";
 export type ListingStatus = "active" | "paused";
 export type OrderStatus = "pending" | "shipped" | "completed";
+
+export interface ActionFailure {
+    ok: false;
+    message: string;
+    /** "invalid_token": key đã hết hạn hoặc không hợp lệ */
+    code?: "invalid_token";
+}
+
+export type ActionResult<T = void> = { ok: true; data: T } | ActionFailure;
+
+export interface VerifyAccountUser {
+    email: string;
+    fullName?: string;
+}
