@@ -117,3 +117,7 @@ export interface PasswordStrength {
     score: number;
     label: string;
 }
+
+export type ItemCondition = "New" | "Like New" | "Well Used";
+export type ListingStatus = "active" | "paused";
+export type OrderStatus = "pending" | "shipped" | "completed";
