@@ -8,10 +8,10 @@ import { signIn } from "next-auth/react";
 import { Controller, useForm } from "react-hook-form";
 import { AlertCircle, Eye, EyeOff, Loader2, LogIn } from "lucide-react";
 import { toast } from "sonner";
-import { Button } "@freemarket/ui/button";
-import { Checkbox } "@freemarket/ui/checkbox";
-import { Input } "@freemarket/ui/input";
-import { Label } "@freemarket/ui/label";
+import { Button } from "@freemarket/ui/button";
+import { Checkbox } from "@freemarket/ui/checkbox";
+import { Input } from "@freemarket/ui/input";
+import { Label } from "@freemarket/ui/label";
 import { getLoginErrorMessage } from "@/lib/auth-errors";
 import { cn } from "@freemarket/utils"
 import { loginSchema } from "@/lib/validations/auth";

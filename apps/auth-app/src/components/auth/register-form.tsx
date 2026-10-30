@@ -10,9 +10,9 @@ import { toast } from "sonner";
 import { FormField } from "@/components/auth/form-field";
 import { PasswordStrength } from "@/components/auth/password-strength";
 import { RegisterProgress } from "@/components/auth/register-progress";
-import { Button } "@freemarket/ui/button";
-import { Checkbox } "@freemarket/ui/checkbox";
-import { Input } "@freemarket/ui/input";
+import { Button } from "@freemarket/ui/button";
+import { Checkbox } from "@freemarket/ui/checkbox";
+import { Input } from "@freemarket/ui/input";
 import { intentOptions, registerSteps, vietnamCities } from "@/lib/constants";
 // import { registerAccount } from "@/lib/mock-auth";
 import { cn } from "@freemarket/utils"

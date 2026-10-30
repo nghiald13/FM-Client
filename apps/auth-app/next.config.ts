@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   assetPrefix: "/auth-static",
-  transpilePackages: ["@freemarket/ui", "@freemarket/utils"],
+  transpilePackages: ["@freemarket/ui", "@freemarket/utils", "@freemarket/auth-config"],
   async rewrites() {
     // Để truy cập trực tiếp localhost:3001 vẫn tải được asset
     return {
