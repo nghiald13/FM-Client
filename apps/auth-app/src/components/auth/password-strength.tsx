@@ -1,5 +1,5 @@
 import { getPasswordStrength } from "@/lib/validations/auth";
-import { cn } from "../../../../../packages/utils/utils";
+import { cn } from "@freemarket/utils"
 
 interface PasswordStrengthProps {
     password: string;

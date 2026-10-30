@@ -3,11 +3,10 @@
 import { useState } from "react";
 import Image from "next/image";
 import { MapPin } from "lucide-react";
-import { Badge } from "../../../../../packages/ui/badge";
-import { cn } from "../../../../../packages/utils/utils";
-import { formatVnd } from "../../../../../packages/utils/format";
-import { getDefaultVariant } from "../../../../../packages/utils/utils";
+import { Badge } from "@freemarket/ui/badge";
+import { cn, formatVnd } from "@freemarket/utils"
 import type { Product, ProductCondition } from "@/types/merchant";
+import { getDefaultVariant } from "@/lib/utils";
 
 const conditionMap: Record<ProductCondition, { label: string; className: string }> = {
     new: { label: "Mới", className: "bg-emerald-50 text-emerald-700 border-emerald-200" },

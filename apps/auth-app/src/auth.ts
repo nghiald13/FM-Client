@@ -5,6 +5,7 @@ import { loginSchema } from "@/lib/validations/auth";
 import { otpSchema } from "@/lib/validations/verify";
 import { LoginErrorCode } from "@/lib/auth-errors";
 import { BackendFailure, postBackend } from "@/lib/backend";
+import { sharedAuthConfig } from "@freemarket/auth-config";
 
 class LoginError extends CredentialsSignin {
     constructor(code: LoginErrorCode) {
@@ -91,9 +92,7 @@ function toAuthUser(data: unknown, fallbackId: string, email?: string): User {
 }
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-    trustHost: true,
-    session: { strategy: "jwt" },
-    pages: { signIn: "/login" },
+    ...sharedAuthConfig,
     providers: [
         Credentials({
             credentials: {

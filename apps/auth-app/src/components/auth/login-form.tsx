@@ -8,12 +8,12 @@ import { signIn } from "next-auth/react";
 import { Controller, useForm } from "react-hook-form";
 import { AlertCircle, Eye, EyeOff, Loader2, LogIn } from "lucide-react";
 import { toast } from "sonner";
-import { Button } from "../../../../../packages/ui/button";
-import { Checkbox } from "../../../../../packages/ui/checkbox";
-import { Input } from "../../../../../packages/ui/input";
-import { Label } from "../../../../../packages/ui/label";
+import { Button } "@freemarket/ui/button";
+import { Checkbox } "@freemarket/ui/checkbox";
+import { Input } "@freemarket/ui/input";
+import { Label } "@freemarket/ui/label";
 import { getLoginErrorMessage } from "@/lib/auth-errors";
-import { cn } from "../../../../../packages/utils/utils";
+import { cn } from "@freemarket/utils"
 import { loginSchema } from "@/lib/validations/auth";
 import { useLoginPreferencesStore } from "@/stores/use-login-preferences-store";
 import type { LoginFormValues } from "@/types";

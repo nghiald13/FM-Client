@@ -1,4 +1,4 @@
-import { cn } from "../../../../../packages/utils/utils";
+import { cn } from "../../../../../packages/utils/src/utils";
 import type { ProductCondition } from "@/types";
 
 const conditionConfig: Record<ProductCondition, { label: string; className: string }> = {

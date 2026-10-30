@@ -3,7 +3,7 @@
 import { Heart } from "lucide-react";
 import { toast } from "sonner";
 import { useHasMounted } from "../../hooks/use-has-mounted";
-import { cn } from "../../../../../packages/utils/utils";
+import { cn } from "@freemarket/utils"
 import { useWishlistStore } from "@/stores/use-wishlist-store";
 
 interface WishlistButtonProps {

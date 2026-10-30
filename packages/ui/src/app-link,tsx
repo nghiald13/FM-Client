@@ -1,0 +1,16 @@
+// packages/ui/src/app-link.tsx
+import Link from "next/link";
+import type { ComponentProps } from "react";
+
+interface AppLinkProps extends Omit<ComponentProps<"a">, "href"> {
+    href: string;
+    /** true khi đích nằm ở zone khác: dùng <a> để hard navigation */
+    crossZone?: boolean;
+}
+
+export function AppLink({ href, crossZone = false, children, ...props }: AppLinkProps) {
+    if (crossZone) {
+        return <a href={ href } {...props }> { children } </a>;
+    }
+    return <Link href={ href } {...props }> { children } </Link>;
+}

@@ -13,8 +13,8 @@ import {
     Store,
     type LucideIcon,
 } from "lucide-react";
-import { Button } from "../../../../../packages/ui/button";
-import { cn } from "../../../../../packages/utils/utils";
+import { Button } "@freemarket/ui/button";
+import { cn } from "@freemarket/utils"
 
 interface NavItem {
     href: string;

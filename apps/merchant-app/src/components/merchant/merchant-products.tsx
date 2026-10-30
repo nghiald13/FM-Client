@@ -3,9 +3,9 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { PackageOpen } from "lucide-react";
-import { Button } from "../../../../../packages/ui/button";
+import { Button } "@freemarket/ui/button";
 import { MerchantProductCard } from "@/components/merchant/merchant-product-card";
-import { cn } from "../../../../../packages/utils/utils";
+import { cn } from "@freemarket/utils"
 import type { Product, ProductCategory } from "@/types/merchant";
 
 interface MerchantProductsProps {

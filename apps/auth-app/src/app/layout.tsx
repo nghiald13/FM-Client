@@ -1,23 +1,37 @@
-import Link from "next/link";
-import { Store } from "lucide-react";
+import type { Metadata, Viewport } from "next";
+import { Inter } from "next/font/google";
+import { Toaster } from "sonner";
+import "./globals.css";
+import { AuthProvider } from "@/components/providers/auth-provider";
 
-export default function AuthLayout({ children }: { children: React.ReactNode }) {
+const inter = Inter({
+    subsets: ["latin", "vietnamese"],
+    variable: "--font-inter",
+    display: "swap",
+});
+
+export const metadata: Metadata = {
+    title: {
+        default: "FreeMarket - Chợ mua bán đồ mới & cũ",
+        template: "%s | FreeMarket",
+    },
+    description:
+        "FreeMarket là chợ C2C giúp bạn mua bán đồ mới và đồ cũ nhanh chóng, an toàn, minh bạch giá.",
+};
+
+export const viewport: Viewport = {
+    width: "device-width",
+    initialScale: 1,
+    themeColor: "#ffffff",
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <div className="flex min-h-dvh flex-col items-center justify-center px-4 py-10">
-            <Link
-                href="/"
-                className="mb-6 flex items-center gap-2"
-                aria-label="FreeMarket - Về trang chủ"
-            >
-                <span className="flex size-10 items-center justify-center rounded-xl bg-emerald-600 text-white">
-                    <Store className="size-5" aria-hidden="true" />
-                </span>
-                <span className="text-xl font-bold tracking-tight text-slate-900">FreeMarket</span>
-            </Link>
-
-            <div className="w-full max-w-sm">{children}</div>
-
-            <p className="mt-8 text-xs text-slate-400">© 2026 FreeMarket</p>
-        </div>
+        <html lang="vi" className={inter.variable}>
+            <body className="min-h-dvh bg-slate-50/80 font-sans text-slate-900 antialiased">
+                <AuthProvider>{children}</AuthProvider>
+                <Toaster position="top-center" richColors closeButton />
+            </body>
+        </html>
     );
 }

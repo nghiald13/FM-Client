@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, type ChangeEvent, type ClipboardEvent, type KeyboardEvent } from "react";
-import { cn } from "../../../../../packages/utils/utils";
+import { cn } from "@freemarket/utils"
 import { OTP_LENGTH } from "@/lib/validations/verify";
 
 interface OtpInputProps {

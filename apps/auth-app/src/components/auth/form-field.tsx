@@ -1,5 +1,5 @@
+import { Label } "@freemarket/ui/label";
 import type { ReactNode } from "react";
-import { Label } from "../../../../../packages/ui/label";
 
 interface FormFieldProps {
     id: string;

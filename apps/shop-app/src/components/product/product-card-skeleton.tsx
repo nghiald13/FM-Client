@@ -1,4 +1,4 @@
-import { Skeleton } from "../../../../../packages/ui/skeleton";
+import { Skeleton } from "@freemarket/ui/skeleton";
 
 export function ProductCardSkeleton() {
     return (

@@ -5,7 +5,7 @@ import { AddToCartButton } from "./add-to-cart-button";
 import { ConditionBadge } from "./condition-badge";
 import { SellerBadge } from "./seller-badge";
 import { WishlistButton } from "./wishlist-button";
-import { formatPrice } from "../../../../../packages/utils/format";
+import { formatPrice } from "@freemarket/utils/src/format";
 import type { Product } from "@/types";
 
 interface ProductCardProps {

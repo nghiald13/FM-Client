@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { getAppMode, getNavItems, isNavActive } from "@/lib/navigation";
-import { cn } from "../../../../../packages/utils/utils";
+import { cn } from "../../../../../packages/utils/src/utils";
 
 export function DesktopNav() {
     const pathname = usePathname();

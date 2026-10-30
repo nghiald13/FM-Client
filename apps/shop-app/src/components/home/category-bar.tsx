@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { LayoutGrid } from "lucide-react";
-import { cn } from "../../../../../packages/utils/utils";
+import { cn } from "@freemarket/utils"
 import type { Category, SortOption } from "@/types";
 
 interface CategoryBarProps {

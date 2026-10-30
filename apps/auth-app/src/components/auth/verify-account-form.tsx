@@ -7,14 +7,14 @@ import { signIn } from "next-auth/react";
 import { AlertCircle, Clock, Loader2, Mail, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 import { requestVerifyEmailAction } from "@/actions/verify-actions";
-import { Button } from "../../../../../packages/ui/button";
-import { Input } from "../../../../../packages/ui/input";
+import { Button } "@freemarket/ui/button";
+import { Input } "@freemarket/ui/input";
 import { useCountdown } from "@/hooks/use-countdown";
 import { getLoginErrorMessage } from "@/lib/auth-errors";
-import { formatCountdown, maskEmail } from "../../../../../packages/utils/format";
-import { cn } from "../../../../../packages/utils/utils";
+import { cn } from "@freemarket/utils"
 import { OTP_LENGTH, otpSchema } from "@/lib/validations/verify";
 import type { VerifyAccountUser } from "@/types";
+import { formatCountdown, maskEmail } from "@/lib/format";
 
 const OTP_TTL_SECONDS = 5 * 60;
 const RESEND_COOLDOWN_SECONDS = 60;

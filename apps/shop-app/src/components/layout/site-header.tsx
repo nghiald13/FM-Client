@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Search, Store } from "lucide-react";
-import { Input } from "../../../../../packages/ui/input";
+import { Input } "@freemarket/ui/input";
 import { CartLink } from "@/components/layout/cart-link";
 import { DesktopNav } from "@/components/layout/desktop-nav";
 import { ModeSwitcher } from "@/components/layout/mode-switcher";

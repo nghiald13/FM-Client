@@ -1,7 +1,7 @@
 "use client";
 
 import { getNavItems, getAppMode, isNavActive } from "@/lib/navigation";
-import { cn } from "cn";
+import { cn } from "@freemarket/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 

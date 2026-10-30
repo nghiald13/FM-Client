@@ -1,5 +1,5 @@
 import { Check } from "lucide-react";
-import { cn } from "../../../../../packages/utils/utils";
+import { cn } from "@freemarket/utils"
 import type { RegisterStepConfig } from "@/types";
 
 interface RegisterProgressProps {

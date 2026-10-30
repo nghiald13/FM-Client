@@ -10,12 +10,12 @@ import { toast } from "sonner";
 import { FormField } from "@/components/auth/form-field";
 import { PasswordStrength } from "@/components/auth/password-strength";
 import { RegisterProgress } from "@/components/auth/register-progress";
-import { Button } from "../../../../../packages/ui/button";
-import { Checkbox } from "../../../../../packages/ui/checkbox";
-import { Input } from "../../../../../packages/ui/input";
+import { Button } "@freemarket/ui/button";
+import { Checkbox } "@freemarket/ui/checkbox";
+import { Input } "@freemarket/ui/input";
 import { intentOptions, registerSteps, vietnamCities } from "@/lib/constants";
-import { registerAccount } from "@/lib/mock-auth";
-import { cn } from "../../../../../packages/utils/utils";
+// import { registerAccount } from "@/lib/mock-auth";
+import { cn } from "@freemarket/utils"
 import { registerSchema, registerStepFields } from "@/lib/validations/auth";
 import { useAccountsStore } from "@/stores/use-accounts-store";
 import type { RegisterFormValues } from "@/types";
@@ -86,16 +86,16 @@ export function RegisterForm() {
     }
 
     async function onSubmit(values: RegisterFormValues): Promise<void> {
-        const result = await registerAccount(values, registeredAccounts);
+        // const result = await registerAccount(values, registeredAccounts);
 
-        if (!result.ok) {
-            setStep(0);
-            setError("email", { message: result.message });
-            toast.error(result.message);
-            return;
-        }
+        // if (!result.ok) {
+        //     setStep(0);
+        //     setError("email", { message: result.message });
+        //     toast.error(result.message);
+        //     return;
+        // }
 
-        addAccount(result.account);
+        // addAccount(result.account);
         toast.success("Đăng ký thành công! Vui lòng đăng nhập.");
         router.replace("/login");
     }

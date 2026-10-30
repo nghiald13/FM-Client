@@ -1,4 +1,4 @@
-import { Skeleton } from "../../../../../packages/ui/skeleton";
+import { Skeleton } @freemarket/ui/skeleton";
 
 export default function MerchantLoading() {
     return (

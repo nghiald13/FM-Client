@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { ShoppingBag, Store } from "lucide-react";
 import { toast } from "sonner";
 import { getAppMode } from "@/lib/navigation";
-import { cn } from "../../../../../packages/utils/utils";
+import { cn } from "@freemarket/utils"
 import type { AppMode } from "@/types";
 
 interface ModeOption {
@@ -27,7 +27,7 @@ const options: ModeOption[] = [
     {
         mode: "merchant",
         label: "Studio",
-        href: "/studio",
+        href: "/merchant",
         icon: Store,
         toastMessage: "Đã chuyển sang Merchant Studio",
     },

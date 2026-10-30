@@ -2,7 +2,7 @@
 
 import { ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
-import { Button } from "../../../../../packages/ui/button";
+import { Button } "@freemarket/ui/button";
 import { useCartStore } from "../../stores/use-cart-store";
 import type { Product } from "@/types";
 

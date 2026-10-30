@@ -2,14 +2,14 @@
 
 import { useState, type ReactNode } from "react";
 import { Menu } from "lucide-react";
-import { Button } from "../../../../../packages/ui/button";
+import { Button } "@freemarket/ui/button";
 import {
     Sheet,
     SheetContent,
     SheetDescription,
     SheetHeader,
     SheetTitle,
-} from "../../../../../packages/ui/sheet";
+} from "@freemarket/ui/sheet";
 import { MerchantSidebar } from "@/components/merchant/merchant-sidebar";
 
 interface MerchantShellProps {
