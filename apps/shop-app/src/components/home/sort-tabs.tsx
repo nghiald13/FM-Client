@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { cn } from "../../../../../packages/utils/src/utils";
+import { cn } from "@freemarket/utils"
 import type { SortOption } from "@/types";
 
 interface SortTabsProps {

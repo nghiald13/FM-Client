@@ -9,8 +9,6 @@ interface AppLinkProps extends Omit<ComponentProps<"a">, "href"> {
 }
 
 export function AppLink({ href, crossZone = false, children, ...props }: AppLinkProps) {
-    if (crossZone) {
-        return <a href={ href } {...props }> { children } </a>;
-    }
-    return <Link href={ href } {...props }> { children } </Link>;
+    if (crossZone) return <a href={href} {...props}> {children} </a>;
+    return <Link href={href} {...props}> {children} </Link>;
 }

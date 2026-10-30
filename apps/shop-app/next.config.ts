@@ -4,7 +4,7 @@ const AUTH_ZONE_URL = process.env.AUTH_ZONE_URL ?? "http://localhost:3001";
 const MERCHANT_ZONE_URL = process.env.MERCHANT_ZONE_URL ?? "http://localhost:3002";
 
 const nextConfig: NextConfig = {
-  transpilePackages: ["@freemarket/ui", "@freemarket/utils"],
+  transpilePackages: ["@freemarket/ui", "@freemarket/utils", "@freemarket/auth-config"],
   images: {
     remotePatterns: [{ protocol: "https", hostname: "images.unsplash.com" }],
   },

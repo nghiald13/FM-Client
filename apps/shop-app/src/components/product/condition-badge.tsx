@@ -1,5 +1,5 @@
-import { cn } from "../../../../../packages/utils/src/utils";
 import type { ProductCondition } from "@/types";
+import { cn } from "@freemarket/utils";
 
 const conditionConfig: Record<ProductCondition, { label: string; className: string }> = {
     new: { label: "Mới", className: "bg-emerald-50 text-emerald-700 ring-emerald-200" },

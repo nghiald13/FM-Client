@@ -7,8 +7,8 @@ import { signIn } from "next-auth/react";
 import { AlertCircle, Clock, Loader2, Mail, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 import { requestVerifyEmailAction } from "@/actions/verify-actions";
-import { Button } "@freemarket/ui/button";
-import { Input } "@freemarket/ui/input";
+import { Button } from "@freemarket/ui/button";
+import { Input } from "@freemarket/ui/input";
 import { useCountdown } from "@/hooks/use-countdown";
 import { getLoginErrorMessage } from "@/lib/auth-errors";
 import { cn } from "@freemarket/utils"

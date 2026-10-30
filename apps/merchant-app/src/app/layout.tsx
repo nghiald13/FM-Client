@@ -42,7 +42,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 <AuthProvider>
                     <MerchantShell>
                         {children}
-                    </MerchantShell>;
+                    </MerchantShell>
                 </AuthProvider>
                 <Toaster position="top-center" richColors closeButton />
             </body>

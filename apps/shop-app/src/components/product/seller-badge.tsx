@@ -1,5 +1,5 @@
 import { BadgeCheck, Clock, Star } from "lucide-react";
-import { formatCompactNumber } from "@freemarket/utils/src/format";
+import { formatCompactNumber } from "@freemarket/utils";
 import type { Seller } from "@/types";
 
 interface SellerBadgeProps {

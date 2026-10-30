@@ -13,7 +13,7 @@ import {
     Store,
     type LucideIcon,
 } from "lucide-react";
-import { Button } "@freemarket/ui/button";
+import { Button } from "@freemarket/ui/button";
 import { cn } from "@freemarket/utils"
 
 interface NavItem {
@@ -23,12 +23,12 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-    { href: "/merchant", label: "Cửa hàng của tôi", icon: Store },
-    { href: "/merchant/dashboard", label: "Tổng quan", icon: LayoutDashboard },
-    { href: "/merchant/listings", label: "Sản phẩm đang bán", icon: Package },
-    { href: "/merchant/orders", label: "Đơn hàng", icon: ClipboardList },
-    { href: "/merchant/sales", label: "Doanh thu", icon: BarChart3 },
-    { href: "/merchant/settings", label: "Cài đặt cửa hàng", icon: Settings },
+    { href: "/", label: "Cửa hàng của tôi", icon: Store },
+    { href: "/dashboard", label: "Tổng quan", icon: LayoutDashboard },
+    { href: "/listings", label: "Sản phẩm đang bán", icon: Package },
+    { href: "/orders", label: "Đơn hàng", icon: ClipboardList },
+    { href: "/sales", label: "Doanh thu", icon: BarChart3 },
+    { href: "/settings", label: "Cài đặt cửa hàng", icon: Settings },
 ];
 
 interface MerchantSidebarProps {
@@ -45,8 +45,8 @@ export function MerchantSidebar({ onNavigate }: MerchantSidebarProps) {
                 <p className="text-xs text-slate-500">Quản lý cửa hàng của bạn</p>
             </div>
 
-            <Button asChild className="w-full bg-emerald-600 hover:bg-emerald-700">
-                <Link href="/merchant/listings/new" onClick={onNavigate}>
+            <Button className="w-full bg-emerald-600 hover:bg-emerald-700">
+                <Link href="/listings/new" onClick={onNavigate}>
                     <Plus className="size-4" />
                     Đăng sản phẩm
                 </Link>
@@ -75,14 +75,10 @@ export function MerchantSidebar({ onNavigate }: MerchantSidebarProps) {
                 })}
             </nav>
 
-            <Link
-                href="/"
-                onClick={onNavigate}
-                className="flex items-center gap-3 rounded-md border border-slate-200 px-3 py-2.5 text-sm font-medium text-slate-700 transition-colors duration-150 hover:bg-slate-50"
-            >
+            <a href="/" className="flex items-center gap-3 rounded-md border border-slate-200 px-3 py-2.5 text-sm font-medium text-slate-700 transition-colors duration-150 hover:bg-slate-50">
                 <ShoppingBag className="size-4" />
                 Chuyển sang Buyer Mode
-            </Link>
+            </a>
         </div>
     );
 }

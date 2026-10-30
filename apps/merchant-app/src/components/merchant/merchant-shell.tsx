@@ -2,7 +2,7 @@
 
 import { useState, type ReactNode } from "react";
 import { Menu } from "lucide-react";
-import { Button } "@freemarket/ui/button";
+import { Button } from "@freemarket/ui/button";
 import {
     Sheet,
     SheetContent,

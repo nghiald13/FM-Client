@@ -1,4 +1,4 @@
-import { Label } "@freemarket/ui/label";
+import { Label } from "@freemarket/ui/label";
 import type { ReactNode } from "react";
 
 interface FormFieldProps {

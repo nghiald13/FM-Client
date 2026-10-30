@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@freemarket/auth-config": "workspace:*",
     "@freemarket/ui": "workspace:*",
     "@freemarket/utils": "workspace:*",
     "@hookform/resolvers": "^6.0.0",

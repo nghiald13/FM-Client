@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { PackageOpen } from "lucide-react";
-import { Button } "@freemarket/ui/button";
+import { Button } from "@freemarket/ui/button";
 import { MerchantProductCard } from "@/components/merchant/merchant-product-card";
 import { cn } from "@freemarket/utils"
 import type { Product, ProductCategory } from "@/types/merchant";
@@ -61,7 +61,7 @@ export function MerchantProducts({ categories, products }: MerchantProductsProps
                 <div className="mt-8 flex flex-col items-center gap-3 rounded-lg border border-dashed border-slate-300 bg-white px-4 py-12 text-center">
                     <PackageOpen className="size-10 text-slate-400" />
                     <p className="text-sm text-slate-600">Chưa có sản phẩm nào đang bán.</p>
-                    <Button asChild className="bg-emerald-600 hover:bg-emerald-700">
+                    <Button className="bg-emerald-600 hover:bg-emerald-700">
                         <Link href="/merchant/listings/new">Đăng sản phẩm đầu tiên</Link>
                     </Button>
                 </div>

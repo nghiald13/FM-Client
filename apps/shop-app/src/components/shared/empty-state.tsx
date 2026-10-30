@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
-import { Button } "@freemarket/ui/button";
+import { Button } from "@freemarket/ui/button";
 
 interface EmptyStateProps {
     icon: LucideIcon;
