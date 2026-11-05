@@ -8,6 +8,11 @@ export default function MerchantLoading() {
                 <Skeleton className="-mt-10 size-20 rounded-full ring-4 ring-white sm:size-24" />
                 <Skeleton className="mt-3 h-6 w-48" />
                 <Skeleton className="mt-2 h-4 w-full max-w-md" />
+                <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
+                    {Array.from({ length: 4 }, (_, i) => (
+                        <Skeleton key={i} className="h-24 w-full" />
+                    ))}
+                </div>
                 <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
                     {Array.from({ length: 8 }, (_, i) => (
                         <div key={i} className="space-y-2">

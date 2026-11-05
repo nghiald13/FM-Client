@@ -1,13 +1,11 @@
 import type { ReactNode } from "react";
-import { MerchantShell } from "@/components/merchant/merchant-shell";
-
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import { redirect } from "next/navigation";
 import { Toaster } from "sonner";
 import "./globals.css";
 import { AuthProvider } from "@/components/providers/auth-provider";
 import { auth } from "@/auth";
-import { redirect } from "next/navigation";
 
 const inter = Inter({
     subsets: ["latin", "vietnamese"],
@@ -30,20 +28,17 @@ export const viewport: Viewport = {
     themeColor: "#ffffff",
 };
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
     const session = await auth();
 
     if (!session) {
         redirect("/login?redirect=/merchant");
     }
+
     return (
         <html lang="vi" className={inter.variable}>
             <body className="min-h-dvh bg-slate-50/80 font-sans text-slate-900 antialiased">
-                <AuthProvider>
-                    <MerchantShell>
-                        {children}
-                    </MerchantShell>
-                </AuthProvider>
+                <AuthProvider>{children}</AuthProvider>
                 <Toaster position="top-center" richColors closeButton />
             </body>
         </html>

@@ -1,4 +1,5 @@
 import type { Merchant, Product, ProductCategory } from "@/types/merchant";
+import type { DashboardStat, RecentOrder } from "@/types/dashboard";
 const img = (id: string): string =>
     `https://images.unsplash.com/${id}?auto=format&fit=crop&w=800&q=80`;
 
@@ -102,4 +103,18 @@ export const mockProducts: Product[] = [
             { id: "p-006-v1", name: "Mặc định", sku: "SG-STD", price: 320000, stock: 4, isDefault: true },
         ],
     },
+];
+
+export const mockDashboardStats: DashboardStat[] = [
+    { id: "revenue", label: "Doanh thu 30 ngày", value: "42.350.000 ₫", hint: "Tăng 12% so với kỳ trước" },
+    { id: "orders", label: "Đơn cần xử lý", value: "7", hint: "3 đơn chờ đóng gói" },
+    { id: "listings", label: "Sản phẩm đang bán", value: "6", hint: "1 phân loại đã hết hàng" },
+    { id: "rating", label: "Đánh giá trung bình", value: "4,9", hint: "312 đánh giá" },
+];
+
+export const mockRecentOrders: RecentOrder[] = [
+    { id: "o-1", code: "FM2481", buyerName: "Trần Quốc Bảo", productTitle: "Tai nghe over-ear chống ồn", total: 1850000, status: "pending", createdLabel: "15 phút trước" },
+    { id: "o-2", code: "FM2480", buyerName: "Lê Thu Hà", productTitle: "Giày sneaker chạy bộ (Đỏ / 42)", total: 1290000, status: "pending", createdLabel: "1 giờ trước" },
+    { id: "o-3", code: "FM2476", buyerName: "Phạm Gia Huy", productTitle: "Đồng hồ đeo tay dây da (Dây nâu)", total: 990000, status: "shipped", createdLabel: "Hôm qua" },
+    { id: "o-4", code: "FM2471", buyerName: "Đỗ Mai Anh", productTitle: "Kính mát gọng nhựa", total: 320000, status: "completed", createdLabel: "2 ngày trước" },
 ];
