@@ -1,12 +1,12 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ShoppingBag, Store } from "lucide-react";
 import { toast } from "sonner";
-import { getAppMode } from "@/lib/navigation";
 import { cn } from "@freemarket/utils"
 import type { AppMode } from "@/types";
+import { AppLink } from "@freemarket/ui/app-link";
+import { getAppMode, isCrossZone } from "@/lib/navigation";
 
 interface ModeOption {
     mode: AppMode;
@@ -46,14 +46,13 @@ export function ModeSwitcher() {
             {options.map(({ mode, label, href, icon: Icon, toastMessage }) => {
                 const isActive = currentMode === mode;
                 return (
-                    <Link
+                    <AppLink
                         key={mode}
                         href={href}
+                        crossZone={isCrossZone(href)}
                         role="tab"
                         aria-selected={isActive}
-                        onClick={() => {
-                            if (!isActive) toast.info(toastMessage);
-                        }}
+                        onClick={() => { if (!isActive) toast.info(toastMessage); }}
                         className={cn(
                             "flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors duration-150 sm:text-sm",
                             isActive
@@ -63,7 +62,7 @@ export function ModeSwitcher() {
                     >
                         <Icon className="size-4" aria-hidden="true" />
                         <span>{label}</span>
-                    </Link>
+                    </AppLink>
                 );
             })}
         </div>

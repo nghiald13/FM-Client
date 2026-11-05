@@ -4,6 +4,7 @@ import { Input } from "@freemarket/ui/input";
 import { CartLink } from "@/components/layout/cart-link";
 import { DesktopNav } from "@/components/layout/desktop-nav";
 import { ModeSwitcher } from "@/components/layout/mode-switcher";
+import { UserMenu } from "@/components/layout/user-menu";
 
 function SearchForm({ className }: { className?: string }) {
     return (
@@ -44,6 +45,7 @@ export function SiteHeader() {
                     <DesktopNav />
                     <ModeSwitcher />
                     <CartLink />
+                    <UserMenu />
                 </div>
             </div>
 

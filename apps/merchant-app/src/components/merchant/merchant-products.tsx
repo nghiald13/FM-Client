@@ -62,7 +62,7 @@ export function MerchantProducts({ categories, products }: MerchantProductsProps
                     <PackageOpen className="size-10 text-slate-400" />
                     <p className="text-sm text-slate-600">Chưa có sản phẩm nào đang bán.</p>
                     <Button className="bg-emerald-600 hover:bg-emerald-700">
-                        <Link href="/merchant/listings/new">Đăng sản phẩm đầu tiên</Link>
+                        <Link href="/listings/new">Đăng sản phẩm đầu tiên</Link>
                     </Button>
                 </div>
             ) : (

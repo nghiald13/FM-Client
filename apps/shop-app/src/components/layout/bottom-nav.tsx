@@ -1,8 +1,8 @@
 "use client";
 
-import { getNavItems, getAppMode, isNavActive } from "@/lib/navigation";
+import { getNavItems, getAppMode, isNavActive, isCrossZone } from "@/lib/navigation";
 import { cn } from "@freemarket/utils";
-import Link from "next/link";
+import { AppLink } from "@freemarket/ui/app-link";
 import { usePathname } from "next/navigation";
 
 export function BottomNav() {
@@ -20,7 +20,7 @@ export function BottomNav() {
                     const Icon = item.icon;
                     return (
                         <li key={item.href} className="flex justify-center">
-                            <Link
+                            <AppLink crossZone={isCrossZone(item.href)}
                                 href={item.href}
                                 aria-current={isActive ? "page" : undefined}
                                 className="flex flex-col items-center gap-0.5 px-2 py-1 text-[11px] font-medium"
@@ -44,7 +44,7 @@ export function BottomNav() {
                                         </span>
                                     </>
                                 )}
-                            </Link>
+                            </AppLink>
                         </li>
                     );
                 })}

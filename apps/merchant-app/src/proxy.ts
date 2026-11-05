@@ -1,11 +1,13 @@
-// apps/merchant-app/src/proxy.ts
-import { NextResponse, type NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 
-export default auth((req: NextRequest & { auth: unknown }) => {
+const APP_ORIGIN = process.env.APP_ORIGIN ?? "http://localhost:3000";
+
+export default auth((req) => {
     if (!req.auth) {
-        const url = new URL("/login", req.nextUrl.origin);
-        url.searchParams.set("redirect", "/merchant");
+        const path = req.nextUrl.pathname === "/" ? "" : req.nextUrl.pathname;
+        const url = new URL("/login", APP_ORIGIN);
+        url.searchParams.set("redirect", `/merchant${path}`);
         return NextResponse.redirect(url);
     }
     return NextResponse.next();

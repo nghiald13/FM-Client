@@ -127,19 +127,4 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             },
         }),
     ],
-    callbacks: {
-        jwt({ token, user }) {
-            if (user) {
-                token.accessToken = user.accessToken;
-                token.refreshToken = user.refreshToken;
-                token.tokenType = user.tokenType;
-                token.accessTokenExpires = user.accessTokenExpires;
-            }
-            return token;
-        },
-        session({ session, token }) {
-            session.accessToken = token.accessToken;
-            return session;
-        },
-    },
 });

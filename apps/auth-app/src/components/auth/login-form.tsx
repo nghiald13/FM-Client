@@ -83,8 +83,7 @@ export function LoginForm({ redirectTo }: LoginFormProps) {
 
         setRememberedEmail(values.rememberMe ? emailOrPhone : "");
         toast.success("Đăng nhập thành công!");
-        router.replace(redirectTo);
-        router.refresh();
+        window.location.assign(redirectTo);
     }
 
     return (

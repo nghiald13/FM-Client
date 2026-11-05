@@ -17,7 +17,7 @@ const merchantProfileSchema = z.object({
  * chỉ gọi backend một lần.
  */
 export const getMerchantState = cache(async (): Promise<MerchantState> => {
-    const result = await backendRequest("/merchant", { method: "GET" });
+    const result = await backendRequest("", { method: "GET" });
 
     if (result.ok) {
         const parsed = merchantProfileSchema.safeParse(result.data);

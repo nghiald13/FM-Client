@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { Store } from "lucide-react";
+import { AppLink } from "@freemarket/ui/app-link";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
     return (
         <div className="flex min-h-dvh flex-col items-center justify-center px-4 py-10">
-            <Link
+            <AppLink crossZone
                 href="/"
                 className="mb-6 flex items-center gap-2"
                 aria-label="FreeMarket - Về trang chủ"
@@ -13,7 +14,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
                     <Store className="size-5" aria-hidden="true" />
                 </span>
                 <span className="text-xl font-bold tracking-tight text-slate-900">FreeMarket</span>
-            </Link>
+            </AppLink>
 
             <div className="w-full max-w-sm">{children}</div>
 

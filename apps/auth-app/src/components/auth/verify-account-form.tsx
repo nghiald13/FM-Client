@@ -2,7 +2,6 @@
 
 import { useRef, useState, type ChangeEvent } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { AlertCircle, Clock, Loader2, Mail, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
@@ -28,7 +27,6 @@ interface VerifyAccountFormProps {
 }
 
 export function VerifyAccountForm({ user, verifyKey, redirectTo }: VerifyAccountFormProps) {
-    const router = useRouter();
     const inputRef = useRef<HTMLInputElement>(null);
 
     const [otp, setOtp] = useState<string>("");
@@ -82,8 +80,7 @@ export function VerifyAccountForm({ user, verifyKey, redirectTo }: VerifyAccount
             if (result && !result.error) {
                 setIsDone(true);
                 toast.success("Xác minh thành công!");
-                router.replace(redirectTo);
-                router.refresh();
+                window.location.assign(redirectTo);
                 return;
             }
             handleFailure(result?.code);

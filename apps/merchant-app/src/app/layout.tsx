@@ -1,11 +1,9 @@
 import type { ReactNode } from "react";
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-import { redirect } from "next/navigation";
 import { Toaster } from "sonner";
 import "./globals.css";
 import { AuthProvider } from "@/components/providers/auth-provider";
-import { auth } from "@/auth";
 
 const inter = Inter({
     subsets: ["latin", "vietnamese"],
@@ -28,13 +26,7 @@ export const viewport: Viewport = {
     themeColor: "#ffffff",
 };
 
-export default async function RootLayout({ children }: { children: ReactNode }) {
-    const session = await auth();
-
-    if (!session) {
-        redirect("/login?redirect=/merchant");
-    }
-
+export default function RootLayout({ children }: { children: ReactNode }) {
     return (
         <html lang="vi" className={inter.variable}>
             <body className="min-h-dvh bg-slate-50/80 font-sans text-slate-900 antialiased">
